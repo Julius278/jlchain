@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest -t --watchAll",
-    "testCI": "jest -t --ci --watchAll",
+    "testCI": "jest -t --ci",
     "dev-test": "nodemon Test/dev-test"
   },
   "keywords": [],
