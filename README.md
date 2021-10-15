@@ -1,2 +1,0 @@
-# jlchain
-small blockchain project
