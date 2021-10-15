@@ -37,18 +37,22 @@ describe('BlockChain', () => {
     });
 
     it('invalidates a chain with a corrupt genesis block', () => {
-        thirdBlockchain = new BlockChain();
-        thirdBlockchain.addBlock(data);
-
-        thirdBlockchain.chain[0].data = 'Bad Data';
-        expect(thirdBlockchain.isValidChain(thirdBlockchain.chain)).toBe(false);
+        secBlockchain.chain[0].data = 'Bad Data';
+        expect(secBlockchain.isValidChain(secBlockchain.chain)).toBe(false);
     });
 
     it('invalidates a chain with a corrupt block', () => {
-        fourthBlockchain = new BlockChain();
-        fourthBlockchain.addBlock(data);
-        fourthBlockchain.chain[1].data = 'Bad Data';
-        expect(fourthBlockchain.isValidChain(fourthBlockchain.chain)).toBe(false);
+        secBlockchain.chain[1].data = 'Bad Data';
+        expect(secBlockchain.isValidChain(secBlockchain.chain)).toBe(false);
+    });
+
+    it('it replaces the chain with a valid chain', () => {
+        secBlockchain.replaceChain(blockchain.chain);
+        expect(secBlockchain.chain).toEqual(blockchain.chain);
     });
     
+    it('does not replace a chain with one less than or equal to length', () => {
+        blockchain.replaceChain(secBlockchain.chain);
+        expect(blockchain.chain).not.toEqual(secBlockchain.chain);
+    });
 });
