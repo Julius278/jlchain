@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run Jest
       uses: stefanoeb/jest-action@1.0.3
-    - run: npm test
+    - run: npm testCI
     #- run: npm ci
     #- run: npm run build --if-present
     #- run: npm test
