@@ -24,7 +24,7 @@ jobs:
     - name: Install modules
       run: yarn
     - name: Run tests
-      run: yarn test
+      run: yarn testCI
     #- name: Run Jest
      # uses: stefanoeb/jest-action@1.0.3
     #- run: npm run testCI
