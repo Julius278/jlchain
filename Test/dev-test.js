@@ -1,4 +1,4 @@
-const Block = require("./block");
+const Block = require("../block");
 
 const block = Block.mineBlock(Block.genesis(), 'second Block data');
 console.log(block.toString());
