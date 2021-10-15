@@ -21,9 +21,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run Jest
-      uses: stefanoeb/jest-action@1.0.3
-    - run: npm run testCI
+    - name: Install modules
+      run: yarn
+    - name: Run tests
+      run: yarn test
+    #- name: Run Jest
+     # uses: stefanoeb/jest-action@1.0.3
+    #- run: npm run testCI
     #- run: npm ci
     #- run: npm run build --if-present
     #- run: npm test
