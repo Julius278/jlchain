@@ -2,7 +2,7 @@ const BlockChain = require("../blockchain");
 
 describe('BlockChain', () => {
 
-    let blockchain;
+    let blockchain, secBlockchain, thirdBlockchain, fourthBlockchain;
     let data = "dummy input Data";
 
     beforeEach(() => {
@@ -10,6 +10,9 @@ describe('BlockChain', () => {
         blockchain.addBlock(data);
         blockchain.addBlock("second input");
         blockchain.addBlock("third input");
+
+        secBlockchain = new BlockChain();
+        secBlockchain.addBlock(data);
     });
     it('sets the `data` to match the input', () => {
         expect(blockchain.chain[1].data).toEqual(data);
@@ -23,10 +26,29 @@ describe('BlockChain', () => {
         expect(blockchain.chain[blockchain.chain.length - 1].timestamp).toBeGreaterThan(blockchain.chain[0].timestamp);
     });
 
-    it('sets the `timestamp` of the newest Block is bigger than the genesis one', () => {
-        secBlockchain = new BlockChain();
-        secBlockchain.addBlock(data);
-        expect(blockchain.chain[1].hash).not.toEqual(secBlockchain.chain[1].hash);
+    it('validates a valid chain', () => {
+        expect(blockchain.isValidChain(secBlockchain.chain)).toBe(true);
     });
 
+    it('invalidates the second element of the different chaines', () => {
+        setTimeout(() => {
+            expect(blockchain.chain[1].hash).not.toEqual(secBlockchain.chain[1].hash);
+        },1000);
+    });
+
+    it('invalidates a chain with a corrupt genesis block', () => {
+        thirdBlockchain = new BlockChain();
+        thirdBlockchain.addBlock(data);
+
+        thirdBlockchain.chain[0].data = 'Bad Data';
+        expect(thirdBlockchain.isValidChain(thirdBlockchain.chain)).toBe(false);
+    });
+
+    it('invalidates a chain with a corrupt block', () => {
+        fourthBlockchain = new BlockChain();
+        fourthBlockchain.addBlock(data);
+        fourthBlockchain.chain[1].data = 'Bad Data';
+        expect(fourthBlockchain.isValidChain(fourthBlockchain.chain)).toBe(false);
+    });
+    
 });
