@@ -1,5 +1,5 @@
-const Hash = require("./Utils/hash");
-const Blockdate = require("./Utils/blockdate");
+const Hash = require("../Utils/hash");
+const Blockdate = require("../Utils/blockdate");
 
 class Block {
     constructor(timestamp, lastHash, hash, data) {

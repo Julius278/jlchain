@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest -t --watchAll",
     "testCI": "jest -t --ci",
-    "dev-test": "nodemon Test/dev-test"
+    "dev-test": "nodemon Test/dev-test",
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,9 @@
     "nodemon": "^2.0.13"
   },
   "dependencies": {
-    "crypto-js": "^4.1.1"
+    "body-parser": "^1.19.0",
+    "crypto-js": "^4.1.1",
+    "express": "^4.17.1",
+    "ws": "^8.2.3"
   }
 }
