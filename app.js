@@ -18,7 +18,10 @@ app.get("/blocks", (req, res) => {
 app.post("/blocks/mine", (req, res) => {
     if (req.body.data !== null && req.body.data !== undefined) {
         const block = bc.addBlock(req.body.data);
-        //console.log(`new block added: ${block.toString()}`);
+        console.log(`new block added: ${block.toString()}`);
+
+        p2pserver.syncChains();
+
         res.redirect("/blocks");
     } else {
         res.json("no block data given")
