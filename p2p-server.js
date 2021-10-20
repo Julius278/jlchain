@@ -32,18 +32,24 @@ class P2pServer {
             //ws://localhost:5001
             const socket = new Websocket(peer);
             socket.on('open', () => this.connectSocket(socket));
+            socket.onerror = function (error) {
+                setTimeout(() => {
+                    console.error(`ERROR: close connection to ${peer}`);
+                    //connectToPeers();
+                    socket.close();
+                }, 5000);
+            };
         });
     }
 
     messageHandler(socket) {
         socket.on('message', message => {
             const data = JSON.parse(message);
-            //console.log('data', data);
             this.blockchain.replaceChain(data);
         });
     }
 
-    sendChain(socket){
+    sendChain(socket) {
         socket.send(JSON.stringify(this.blockchain.chain));
     }
 

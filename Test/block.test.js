@@ -1,5 +1,4 @@
 const Block = require("../core/block");
-const { DIFFICULTY } = require("../config");
 
 describe('Block', () => {
 
