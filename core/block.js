@@ -27,7 +27,8 @@ class Block {
         let date = 1634325563013;
         let data = "Julius";
         let lastHash = "DummyLastHash";
-        let hash = Hash.hash(date, lastHash, data, 0, DIFFICULTY);
+        //
+        let hash = Hash.hash(`${date}${lastHash}${data}${0}${DIFFICULTY}`);
         return new this(date, lastHash, hash, data, 0, DIFFICULTY);
     }
 
@@ -39,7 +40,7 @@ class Block {
             nonce++;
             timestamp = Blockdate.getDate();
             difficulty = Block.adjustDifficulty(lastBlock, timestamp);
-            hash = Hash.hash(timestamp, lastBlock.hash, data, nonce, difficulty);
+            hash = Hash.hash(`${timestamp}${lastBlock.hash}${data}${nonce}${difficulty}`);
         } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty));
 
         return new this(timestamp, lastBlock.hash, hash, data, nonce, difficulty);
@@ -56,7 +57,7 @@ class Block {
 
     static blockHash(block) {
         const { timestamp, lastHash, data, nonce, difficulty } = block;
-        return Hash.hash(timestamp, lastHash, data, nonce, difficulty);
+        return Hash.hash(`${timestamp}${lastHash}${data}${nonce}${difficulty}`);
     }
 }
 module.exports = Block;

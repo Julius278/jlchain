@@ -33,7 +33,7 @@ class BlockChain {
             }
         }
         //if passed these tests
-        return true
+        return true;
     }
 
     replaceChain(newChain) {
