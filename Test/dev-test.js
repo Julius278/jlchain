@@ -1,7 +1,4 @@
-const Block = require("../block");
+const Wallet = require("../wallet/wallet");
 
-const block = Block.mineBlock(Block.genesis(), 'second Block data');
-console.log(block.toString());
-
-const block2 = Block.mineBlock(block, 'third Block data');
-console.log(block2.toString());
+let wallet = new Wallet();
+console.log(wallet.toString());
