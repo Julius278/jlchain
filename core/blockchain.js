@@ -42,6 +42,7 @@ class BlockChain {
             return;
         } else if (!this.isValidChain(newChain)) {
             console.log('received chain is not valid');
+            console.log(newChain);
             return;
         }
 

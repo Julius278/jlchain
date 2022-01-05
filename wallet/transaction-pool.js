@@ -18,7 +18,11 @@ class TransactionPool {
         } else {
             this.transactions[this.transactions.indexOf(transactionWithID)] = transaction;
         } 
-        return this.transactions
+        return this.transactions;
+    }
+
+    existingTransaction(address){
+        return this.transactions.find(t => t.input.address === address);
     }
 }
 module.exports = TransactionPool;
