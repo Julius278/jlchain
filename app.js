@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const P2pServer = require("./p2p-server");
 const Wallet = require("./wallet/wallet");
 const TransactionPool = require("./wallet/transaction-pool");
+const Miner = require("./mining/miner");
 
 const HTTP_PORT = process.env.HTTP_PORT || 3001;
 
@@ -12,6 +13,7 @@ const bc = new Blockchain();
 const wallet = new Wallet();
 const tp = new TransactionPool();
 const p2pserver = new P2pServer(bc, tp);
+const miner = new Miner(bc, tp, wallet, p2pserver);
 
 app.use(bodyParser.json());
 
@@ -41,6 +43,16 @@ app.post("/transact", (req, res) => {
     const transaction = wallet.createTransaction(recipient, amount, tp);
     p2pserver.broadcastTransaction(transaction);
     res.redirect("/transactions");
+});
+
+app.get("/public-key", (req, res) => {
+    res.json({ publicKey: wallet.publicKey });
+});
+
+app.post("/mine", (req, res) => {
+    const b = miner.mine();
+    console.log(`new block: ${b.toString()}`)
+    res.redirect("/blocks");
 });
 
 app.listen(HTTP_PORT, () => console.log(`server is listening on ${HTTP_PORT}`));
