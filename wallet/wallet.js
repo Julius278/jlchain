@@ -9,24 +9,26 @@ class Wallet {
         this.publicKey = this.keyPair.getPublic().encode('hex');
     }
 
-    toString(){
+    toString() {
         return `Wallet -
         publicKey:  ${this.publicKey.toString()}
         balance:    ${this.balance}`;
     }
 
-    sign(dataHash){
+    sign(dataHash) {
         return this.keyPair.sign(dataHash);
     }
 
-    createTransaction(recipient, amount, transactionPool){
-        if(amount > this.balance){
+    createTransaction(recipient, amount, blockchain, transactionPool) {
+        this.balance = this.calculateBalance(blockchain);
+
+        if (amount > this.balance) {
             console.log(`Amount ${amount} exceeds the balanace, only ${this.balance} available`);
             return;
         }
 
         let tr = transactionPool.existingTransaction(this.publicKey);
-        if (tr){
+        if (tr) {
             tr.update(this, recipient, amount);
         } else {
             tr = Transaction.newTransaction(this, recipient, amount);
@@ -35,7 +37,40 @@ class Wallet {
         return tr;
     }
 
-    static blockChainWallet(){
+    calculateBalance(blockchain) {
+        let balance = this.balance;
+        let transactions = [];
+
+        blockchain.chain.forEach(b => {
+            b.data.forEach(t => {
+                transactions.push(t);
+            });
+        });
+
+        let startTime = 0;
+        const walletInputTs = transactions.filter(t => t.input.address === this.publicKey);
+        if (walletInputTs.length > 0) {
+            const recentInputT = walletInputTs.reduce((prev, current) => 
+                prev.input.timestamp > current.input.timestamp ? prev : current
+            );
+            balance = recentInputT.outputs.find(o => o.address === this.publicKey).amount;
+            startTime = recentInputT.input.timestamp;
+        }
+
+        transactions.forEach(t => {
+            if (t.input.timestamp > startTime) {
+                t.outputs.forEach(o => {
+                    if (o.address === this.publicKey) {
+                        balance += o.amount;
+                    }
+                });
+            }
+        });
+
+        return balance;
+    }
+
+    static blockChainWallet() {
         const blockChainWallet = new this();
         blockChainWallet.address = 'blockchain-wallet';
         return blockChainWallet;

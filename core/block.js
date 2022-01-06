@@ -25,7 +25,8 @@ class Block {
 
     static genesis() {
         let date = 1634325563013;
-        let data = "Julius";
+        //let data = ["Julius"];
+        let data = [];
         let lastHash = "DummyLastHash";
         //
         let hash = Hash.hash(`${date}${lastHash}${data}${0}${DIFFICULTY}`);
