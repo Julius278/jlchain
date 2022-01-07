@@ -51,6 +51,13 @@ app.get("/public-key", (req, res) => {
     res.json({ publicKey: wallet.publicKey });
 });
 
+app.get("/public-key/balance", (req, res) => {
+    res.json({ 
+        publicKey: wallet.publicKey,
+        amount: wallet.calculateBalance(bc) 
+    });
+});
+
 app.post("/mine", (req, res) => {
     const b = miner.mine();
     console.log(`new block: ${b.toString()}`)
